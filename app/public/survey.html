@@ -151,29 +151,31 @@
 
 	<!-- Submit Button for Survey -->
 	<div class="text-left">
-		<a href="/survey"><button type="button" class="btn btn-block btn-lg btn-primary" id="submit-btn" data-toggle="modal" data-target="#theModal"><span class="glyphicon glyphicon glyphicon-check"></span> Submit</button></a>
+		<a href="/survey"><button type="button" class="btn btn-block btn-lg btn-primary" id="submit-btn" data-toggle="modal" data-target="#fuckModal"><span class="glyphicon glyphicon glyphicon-check"></span> Submit</button></a>
 	</div>
 
 	<hr>
 
 	<!-- Modal -->
-	<div class="modal-dialog" id="fuckModal" role="document">
-	  	<div class="modal-content">
-	  		<div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Best Match</h4>
-	      	</div>
+	<div class="modal fade" id="fuckModal" role="dialog">
+		<div class="modal-dialog">
+		  	<div class="modal-content">
+		  		<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Best Match</h4>
+		      	</div>
 
-	      	<div class="modal-body">
-	      		<h5 class="modal-title" id="matchName"></h5>
-	        	<img id="matchImage" src="" alt="">
-	      	</div> <!-- modal-body -->
+		      	<div class="modal-body">
+		      		<h5 class="modal-title" id="matchName"></h5>
+		        	<img id="matchImage" src="" alt="">
+		      	</div> <!-- modal-body -->
 
-	      	<div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      	</div>
+		      	<div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      	</div>
 
-	  	</div> <!-- modal-content -->
+		  	</div> <!-- modal-content -->
+	  	</div>
 	</div>  <!-- modal-dialog -->
 
 	<!-- Footer -->
@@ -216,14 +218,14 @@
 			var newFriend = {
 				name: $("#input-name").val().trim(),
 				photo: $("#input-photo").val().trim(),
-				scores: [$("#q1"), $("#q2"), $("#q3"), $("#q4"), $("#q5"), $("#q6"), $("#q7"), $("#q8"), $("#q9"), $("#q10")]
+				scores: [$("#q1").val().trim(), $("#q2").val().trim(), $("#q3").val().trim(), $("#q4").val().trim(), $("#q5").val().trim(), $("#q6").val().trim(), $("#q7").val().trim(), $("#q8").val().trim(), $("#q9").val().trim(), $("#q10").val().trim()]
 			};
 
 			// grab URL of website
 			// var currentURL = window.location.origin;
 
-			$.post("/api/friends", newFriend, function(data) {
-				if(data) {
+			$.post("/api/friends", newFriend).done(function(data) {
+				//if(data) {
 					console.log(data);
 					// Grab the result from AJAX post to match the best match name and photo for display
 					$("#matchName").text(data.name);
@@ -231,7 +233,7 @@
 
 					// Show the modal with the best match
 					$("#fuckModal").modal('show');
-				}
+				//}
 
 				$("#input-name").val("");
 				$("#input-photo").val("");
@@ -245,6 +247,7 @@
 				$("#q8").val("");
 				$("#q9").val("");
 				$("#q10").val("");
+
 			});
 		}
 		else {

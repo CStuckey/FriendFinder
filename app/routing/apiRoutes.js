@@ -31,7 +31,7 @@ module.exports = function(app) {
 	// ---------------------------------------------------------------------------
 
 	// Search through list of friends to match user to a particular Character
-	app.post("/api/new", function(req, res) {
+	app.post("/api/friends", function(req, res) {
 		// Note the code here. Our "server" will respond to requests and let users know who they match with.
     	// It will do this by sending out the value "true" have a match
     
@@ -39,19 +39,25 @@ module.exports = function(app) {
     	var newClient = req.body;
     	var myScore = newClient.scores;
     	var total = 0;
-    	var bestMatch = 100;
+    	var bestMatch = 50;
     	var index = -1;
 
-    	for (var i = 0; i < buddy.length; i++) {
+      console.log(req.body);
+
+    	for (var i = 0; i < friendsList.length; i++) {
     		// iterate through the list of friends
     		total = 0;
 
     		for ( var j = 0; j < myScore.length; j++) {
     			// for each friend calcule total value
-    			var dif = Math.abs(myScore[i] - buddy.length[i]);
-    			total += dif;
+        for ( var a = 0; a < friendsList[i].scores.length; a++) {
+      			var dif = Math.abs(parseInt(myScore[j]) - friendsList[i].scores[a]);
+            // console.log(myScore[j], friendsList[i].scores[a]);
+      			total += dif;
+          }
     		}
-
+        console.log(total);
+        total = total/20;
     		if (total < bestMatch) {
     			bestMatch = total;
     			index = i;
@@ -59,9 +65,9 @@ module.exports = function(app) {
 
     	}
 
-    	console.log("Best Choice ", buddy[index]);
-    	buddy.push(newClient);
-    	res.json(buddy[index]);
+    	console.log("Best Choice ", friendsList[index]);
+    	friendsList.push(newClient);
+    	res.json(friendsList[index]);
 
 	}); // post api newfriend function
 
